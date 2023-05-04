@@ -1,11 +1,9 @@
 name: Update Main Branch
 
 on:
-  schedule:
-    - cron: '0 0 * * *' # Run every day at midnight
   push:
-    branches:
-      - source-marvin
+    branches: 
+      - master
 
 jobs:
   update-main:
