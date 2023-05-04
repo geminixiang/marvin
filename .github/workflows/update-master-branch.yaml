@@ -1,0 +1,33 @@
+name: Update Main Branch
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Run every day at midnight
+  push:
+    branches:
+      - source-marvin
+
+jobs:
+  update-main:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source-marvin branch
+      uses: actions/checkout@v2
+      with:
+        ref: source-marvin
+    - name: Update source-marvin branch from upstream
+      run: |
+        git remote add upstream https://github.com/PrefectHQ/marvin.git
+        git fetch upstream
+        git checkout source-marvin
+        git merge upstream/master
+        git push
+    - name: Checkout main branch
+      run: git checkout main
+    - name: Rebase main branch on source-marvin branch
+      run: |
+        git pull
+        git rebase source-marvin
+        git push -f
+
